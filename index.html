@@ -3,27 +3,28 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Clock</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<title>Neat Pad Pro Clock</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   :root {
-    --bg: #f5f2ee;
+    --bg: #f7f7f7;
     --surface: #ffffff;
-    --border: #e8e3dc;
-    --text-primary: #1a1714;
-    --text-secondary: #8a8077;
-    --text-muted: #b8b0a6;
-    --accent: #c17f3e;
-    --accent-light: #f5ede1;
-    --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.04);
+    --border: #e5e5e5;
+    --text-primary: #111111;
+    --text-secondary: #757575;
+    --text-muted: #999999;
+    --accent: #5FC4A7;
+    --accent-hover: #57B399;
+    --accent-light: #eef9f5;
+    --shadow: 0 1px 3px rgba(0,0,0,0.04), 0 4px 20px rgba(0,0,0,0.06);
   }
 
   html, body {
     height: 100%;
     background: var(--bg);
-    font-family: 'DM Sans', sans-serif;
+    font-family: 'Inter', sans-serif;
     color: var(--text-primary);
     overflow: hidden;
   }
@@ -57,7 +58,7 @@
     border: 1px solid var(--border);
     border-radius: 24px;
     padding: 8px 16px;
-    font-family: 'DM Sans', sans-serif;
+    font-family: 'Inter', sans-serif;
     font-size: 13px;
     font-weight: 500;
     color: var(--text-secondary);
@@ -96,8 +97,9 @@
   }
 
   .location-card h3 {
-    font-family: 'DM Serif Display', serif;
-    font-size: 22px;
+    font-family: 'Inter', sans-serif;
+    font-size: 20px;
+    font-weight: 600;
     margin-bottom: 20px;
     color: var(--text-primary);
   }
@@ -114,7 +116,7 @@
     border: 1px solid var(--border);
     border-radius: 12px;
     padding: 10px 14px;
-    font-family: 'DM Sans', sans-serif;
+    font-family: 'Inter', sans-serif;
     font-size: 13px;
     font-weight: 500;
     color: var(--text-secondary);
@@ -156,7 +158,7 @@
     border: 1px solid var(--border);
     border-radius: 12px;
     padding: 10px 14px;
-    font-family: 'DM Sans', sans-serif;
+    font-family: 'Inter', sans-serif;
     font-size: 13px;
     color: var(--text-primary);
     outline: none;
@@ -171,14 +173,14 @@
     border: none;
     border-radius: 12px;
     padding: 10px 18px;
-    font-family: 'DM Sans', sans-serif;
+    font-family: 'Inter', sans-serif;
     font-size: 13px;
     font-weight: 500;
     cursor: pointer;
-    transition: opacity 0.18s;
+    transition: background 0.18s;
     white-space: nowrap;
   }
-  .apply-btn:hover { opacity: 0.85; }
+  .apply-btn:hover { background: var(--accent-hover); }
 
   /* Main layout - 1280x800 Neat Pad Pro */
   .main {
@@ -200,12 +202,12 @@
   }
 
   .time {
-    font-family: 'DM Serif Display', serif;
+    font-family: 'Inter', sans-serif;
     font-size: 152px;
     line-height: 1;
-    letter-spacing: -0.03em;
+    letter-spacing: -0.04em;
     color: var(--text-primary);
-    font-weight: 400;
+    font-weight: 300;
   }
 
   .time-sub {
@@ -236,9 +238,9 @@
   }
 
   .date-day {
-    font-family: 'DM Serif Display', serif;
-    font-style: italic;
-    font-size: 34px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 32px;
     color: var(--accent);
     margin-bottom: 6px;
   }
@@ -280,7 +282,7 @@
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(135deg, var(--accent-light) 0%, transparent 60%);
+    background: linear-gradient(135deg, var(--accent-light) 0%, transparent 50%);
     pointer-events: none;
   }
 
@@ -292,11 +294,12 @@
   }
 
   .weather-hero-temp {
-    font-family: 'DM Serif Display', serif;
+    font-family: 'Inter', sans-serif;
     font-size: 88px;
     line-height: 1;
     color: var(--text-primary);
-    letter-spacing: -0.02em;
+    letter-spacing: -0.03em;
+    font-weight: 300;
   }
 
   .weather-hero-desc {
@@ -397,7 +400,7 @@
     font-weight: 300;
     color: var(--text-primary);
     line-height: 1;
-    font-family: 'DM Serif Display', serif;
+    font-family: 'Inter', sans-serif;
   }
 
   .weather-stat-sub {
@@ -470,7 +473,7 @@
       <input class="custom-input" id="custom-city" placeholder="City name (e.g. Denver, CO)" />
       <button class="apply-btn" onclick="applyCustom()">Search</button>
     </div>
-    <div id="geo-error" style="color:#c17f3e;font-size:12px;margin-top:10px;display:none;">Could not find that city. Try "City, ST" format.</div>
+    <div id="geo-error" style="color:#cc4749;font-size:12px;margin-top:10px;display:none;">Could not find that city. Try "City, ST" format.</div>
   </div>
 </div>
 
