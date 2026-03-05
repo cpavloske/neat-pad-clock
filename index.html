@@ -600,14 +600,16 @@
     return dirs[Math.round(deg/45) % 8];
   }
 
-  async function fetchWeather(lat, lon) {
+  async function fetchWeather(lat, lon, showSkeleton) {
     const strip = document.getElementById('weather-strip');
-    strip.innerHTML = `
-      <div class="weather-skeleton">
-        <div class="skel" style="height:20px;width:40%"></div>
-        <div class="skel" style="height:56px;width:55%"></div>
-        <div class="skel" style="height:14px;width:30%"></div>
-      </div>`;
+    if (showSkeleton) {
+      strip.innerHTML = `
+        <div class="weather-skeleton">
+          <div class="skel" style="height:20px;width:40%"></div>
+          <div class="skel" style="height:56px;width:55%"></div>
+          <div class="skel" style="height:14px;width:30%"></div>
+        </div>`;
+    }
     try {
       const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,apparent_temperature,relative_humidity_2m,weather_code,wind_speed_10m,wind_direction_10m,is_day&daily=temperature_2m_max,temperature_2m_min,precipitation_probability_max&temperature_unit=fahrenheit&wind_speed_unit=mph&timezone=auto&forecast_days=1`;
       const res = await fetch(url);
@@ -676,7 +678,7 @@
 
   function scheduleWeatherRefresh() {
     if (weatherRefreshTimer) clearInterval(weatherRefreshTimer);
-    weatherRefreshTimer = setInterval(() => fetchWeather(currentLat, currentLon), 5 * 60 * 1000);
+    weatherRefreshTimer = setInterval(() => fetchWeather(currentLat, currentLon, false), 5 * 60 * 1000);
   }
 
   // Location modal
@@ -702,7 +704,7 @@
       updateClock();
     }
     document.getElementById('location-label').textContent = city;
-    fetchWeather(lat, lon);
+    fetchWeather(lat, lon, true);
     scheduleWeatherRefresh();
     closeModal();
   }
@@ -742,7 +744,7 @@
   });
 
   // Init
-  fetchWeather(currentLat, currentLon);
+  fetchWeather(currentLat, currentLon, true);
   scheduleWeatherRefresh();
 </script>
 </body>
