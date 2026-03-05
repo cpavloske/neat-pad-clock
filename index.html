@@ -9,16 +9,17 @@
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   :root {
-    --bg: #f7f7f7;
+    /* Neat template palette */
+    --bg: #f3ede6;
     --surface: #ffffff;
-    --border: #e5e5e5;
-    --text-primary: #111111;
-    --text-secondary: #757575;
-    --text-muted: #999999;
-    --accent: #5FC4A7;
-    --accent-hover: #57B399;
-    --accent-light: #eef9f5;
-    --shadow: 0 1px 3px rgba(0,0,0,0.04), 0 4px 20px rgba(0,0,0,0.06);
+    --border: #dcd3ce;
+    --text-primary: #2c2520;
+    --text-secondary: #877670;
+    --text-muted: #b5aaa4;
+    --accent: #6e9a84;
+    --accent-hover: #4a7265;
+    --accent-light: #e4eeea;
+    --shadow: 0 1px 3px rgba(44,37,32,0.05), 0 4px 20px rgba(44,37,32,0.06);
   }
 
   html, body {
@@ -473,7 +474,7 @@
       <input class="custom-input" id="custom-city" placeholder="City name (e.g. Denver, CO)" />
       <button class="apply-btn" onclick="applyCustom()">Search</button>
     </div>
-    <div id="geo-error" style="color:#cc4749;font-size:12px;margin-top:10px;display:none;">Could not find that city. Try "City, ST" format.</div>
+    <div id="geo-error" style="color:#997a6c;font-size:12px;margin-top:10px;display:none;">Could not find that city. Try "City, ST" format.</div>
   </div>
 </div>
 
