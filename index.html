@@ -197,9 +197,16 @@
 
   /* Clock */
   .clock-block {
-    text-align: left;
+    text-align: center;
     grid-column: 1;
     grid-row: 1;
+  }
+
+  .time-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 0;
   }
 
   .time {
@@ -211,28 +218,26 @@
     font-weight: 300;
   }
 
-  .time-sub {
+  .time-suffix {
     display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-top: 10px;
-    color: var(--text-muted);
-    font-size: 15px;
-    font-weight: 400;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-left: 10px;
+    gap: 2px;
   }
 
-  .time-sub .dot {
-    width: 3px;
-    height: 3px;
-    background: var(--text-muted);
-    border-radius: 50%;
+  .time-suffix span {
+    font-size: 18px;
+    font-weight: 400;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    line-height: 1.2;
   }
 
   /* Date */
   .date-block {
-    text-align: left;
+    text-align: center;
     grid-column: 1;
     grid-row: 2;
     margin-top: -4px;
@@ -515,15 +520,14 @@
 <div class="main">
 
   <div class="clock-block">
-    <div class="time" id="time">--:--</div>
-    <div class="time-sub">
-      <span id="ampm">--</span>
-      <span class="dot"></span>
-      <span id="seconds">--</span>
+    <div class="time-row">
+      <div class="time" id="time">--:--</div>
+      <div class="time-suffix">
+        <span id="ampm">--</span>
+        <span id="seconds">--</span>
+      </div>
     </div>
   </div>
-
-  <div class="ambient-line"></div>
 
   <div class="date-block">
     <div class="date-day" id="date-day">--</div>
