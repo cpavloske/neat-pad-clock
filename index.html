@@ -457,12 +457,12 @@
   <div class="location-card">
     <h3>Choose location</h3>
     <div class="presets">
-      <button class="preset-btn" onclick="selectPreset('Fort Worth, TX', 32.7555, -97.3308)">Fort Worth, TX</button>
-      <button class="preset-btn" onclick="selectPreset('New York, NY', 40.7128, -74.0060)">New York, NY</button>
-      <button class="preset-btn" onclick="selectPreset('London, UK', 51.5074, -0.1278)">London, UK</button>
-      <button class="preset-btn" onclick="selectPreset('Tokyo, Japan', 35.6762, 139.6503)">Tokyo, Japan</button>
-      <button class="preset-btn" onclick="selectPreset('Sydney, Australia', -33.8688, 151.2093)">Sydney, Australia</button>
-      <button class="preset-btn" onclick="selectPreset('Dubai, UAE', 25.2048, 55.2708)">Dubai, UAE</button>
+      <button class="preset-btn" onclick="selectPreset('Fort Worth, TX', 32.7555, -97.3308, 'America/Chicago')">Fort Worth, TX</button>
+      <button class="preset-btn" onclick="selectPreset('New York, NY', 40.7128, -74.0060, 'America/New_York')">New York, NY</button>
+      <button class="preset-btn" onclick="selectPreset('London, UK', 51.5074, -0.1278, 'Europe/London')">London, UK</button>
+      <button class="preset-btn" onclick="selectPreset('Tokyo, Japan', 35.6762, 139.6503, 'Asia/Tokyo')">Tokyo, Japan</button>
+      <button class="preset-btn" onclick="selectPreset('Sydney, Australia', -33.8688, 151.2093, 'Australia/Sydney')">Sydney, Australia</button>
+      <button class="preset-btn" onclick="selectPreset('Dubai, UAE', 25.2048, 55.2708, 'Asia/Dubai')">Dubai, UAE</button>
 
     </div>
     <div class="divider">or enter custom</div>
@@ -510,25 +510,30 @@
   let currentLat = 32.7555;
   let currentLon = -97.3308;
   let currentCity = 'Fort Worth, TX';
+  let currentTimezone = 'America/Chicago';
   let weatherRefreshTimer = null;
 
-  // Clock
+  // Clock — uses currentTimezone to display the correct local time
   function updateClock() {
     const now = new Date();
-    let h = now.getHours();
-    const m = now.getMinutes();
-    const s = now.getSeconds();
+    const opts = { timeZone: currentTimezone };
+
+    let h = parseInt(now.toLocaleString('en-US', { ...opts, hour: 'numeric', hour12: false }));
+    const m = parseInt(now.toLocaleString('en-US', { ...opts, minute: 'numeric' }));
+    const s = parseInt(now.toLocaleString('en-US', { ...opts, second: 'numeric' }));
     const ampm = h >= 12 ? 'PM' : 'AM';
     h = h % 12 || 12;
     document.getElementById('time').textContent = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}`;
     document.getElementById('ampm').textContent = ampm;
     document.getElementById('seconds').textContent = String(s).padStart(2,'0');
 
-    const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
-    const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+    const dayName = now.toLocaleString('en-US', { ...opts, weekday: 'long' });
+    const month = now.toLocaleString('en-US', { ...opts, month: 'long' });
+    const day = parseInt(now.toLocaleString('en-US', { ...opts, day: 'numeric' }));
+    const year = parseInt(now.toLocaleString('en-US', { ...opts, year: 'numeric' }));
     const ord = (n) => n + (['th','st','nd','rd'][(n%100-20)%10]||['th','st','nd','rd'][n%100]||'th');
-    document.getElementById('date-day').textContent = days[now.getDay()];
-    document.getElementById('date-full').textContent = `${months[now.getMonth()]} ${ord(now.getDate())}, ${now.getFullYear()}`;
+    document.getElementById('date-day').textContent = dayName;
+    document.getElementById('date-full').textContent = `${month} ${ord(day)}, ${year}`;
   }
 
   setInterval(updateClock, 1000);
@@ -584,6 +589,12 @@
       const data = await res.json();
       const c = data.current;
       const d = data.daily;
+
+      // Update timezone from API response
+      if (data.timezone) {
+        currentTimezone = data.timezone;
+        updateClock();
+      }
 
       const isDay = c.is_day;
       const icon = weatherIcon(c.weather_code, isDay);
@@ -657,18 +668,22 @@
     if (e.target === document.getElementById('location-modal')) closeModal();
   }
 
-  function setLocation(city, lat, lon) {
+  function setLocation(city, lat, lon, tz) {
     currentCity = city;
     currentLat = lat;
     currentLon = lon;
+    if (tz) {
+      currentTimezone = tz;
+      updateClock();
+    }
     document.getElementById('location-label').textContent = city;
     fetchWeather(lat, lon);
     scheduleWeatherRefresh();
     closeModal();
   }
 
-  function selectPreset(city, lat, lon) {
-    setLocation(city, lat, lon);
+  function selectPreset(city, lat, lon, tz) {
+    setLocation(city, lat, lon, tz);
   }
 
   async function applyCustom() {
@@ -690,7 +705,7 @@
       if (r.admin1) parts.push(r.admin1);
       if (r.country) parts.push(r.country);
       const label = parts.slice(0, 2).join(', ');
-      setLocation(label, r.latitude, r.longitude);
+      setLocation(label, r.latitude, r.longitude, r.timezone);
       document.getElementById('custom-city').value = '';
     } catch(e) {
       errEl.style.display = 'block';
