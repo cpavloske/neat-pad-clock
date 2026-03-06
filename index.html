@@ -461,8 +461,8 @@
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: 20px;
-    padding: 24px 28px 20px;
-    width: 420px;
+    padding: 24px 32px 28px;
+    width: 520px;
     box-shadow: 0 8px 40px rgba(0,0,0,0.12);
     animation: fadeUp 0.25s ease;
   }
@@ -479,8 +479,8 @@
     display: flex;
     align-items: flex-end;
     gap: 3px;
-    height: 120px;
-    padding-bottom: 24px;
+    height: 150px;
+    padding-bottom: 28px;
     position: relative;
     border-bottom: 1px solid var(--border);
   }
@@ -859,7 +859,7 @@
     for (let i = 0; i < 24 && i < probs.length; i++) {
       const pct = probs[i];
       const isCurrent = i === currentHourIndex;
-      const showLabel = i % 3 === 0;
+      const showLabel = i % 3 === 0 || i === 23;
       bars += `<div class="rain-bar-col">
         <div class="rain-bar-pct">${pct}%</div>
         <div class="rain-bar${isCurrent ? ' current' : ''}" style="height:${Math.max(pct, 2)}%"></div>
