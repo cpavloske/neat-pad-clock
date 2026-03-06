@@ -678,7 +678,7 @@
 
   function scheduleWeatherRefresh() {
     if (weatherRefreshTimer) clearInterval(weatherRefreshTimer);
-    weatherRefreshTimer = setInterval(() => fetchWeather(currentLat, currentLon, false), 5 * 60 * 1000);
+    weatherRefreshTimer = setInterval(() => fetchWeather(currentLat, currentLon, false), 30 * 1000);
   }
 
   // Location modal
