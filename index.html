@@ -568,7 +568,7 @@
   function weatherIcon(code, isDay) {
     const d = isDay;
     if (code === 0) return d ? '☀️' : '🌙';
-    if (code <= 2) return d ? '⛅' : '🌤';
+    if (code <= 2) return d ? '⛅' : '🌙';
     if (code === 3) return '☁️';
     if (code <= 48) return '🌫';
     if (code <= 57) return '🌦';
