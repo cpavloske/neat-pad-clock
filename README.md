@@ -1,4 +1,4 @@
-# Neat Pad Pro Clock
+# Neat Pad Clock
 
 A minimal clock + weather display designed for the Neat Pad (1280×800).
 
@@ -44,4 +44,6 @@ In [Neat Pulse](https://pulse.neat.no), create a custom web app and point it to 
 |---|---|
 | [Open-Meteo](https://open-meteo.com/) | Weather & hourly forecast |
 | [Open-Meteo Geocoding](https://open-meteo.com/en/docs/geocoding-api) | City search |
-| [ipapi.co](https://ipapi.co/) | IP-based location detection |
+| [ipapi.co](https://ipapi.co/) | IP-based location detection (primary) |
+| [ipwho.is](https://ipwho.is/) | IP-based location detection (fallback 1) |
+| [freeipapi.com](https://freeipapi.com/) | IP-based location detection (fallback 2) |
