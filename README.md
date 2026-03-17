@@ -1,6 +1,6 @@
 # Neat Pad Pro Clock
 
-A minimal clock + weather display designed for the Neat Pad Pro (1280×800).
+A minimal clock + weather display designed for the Neat Pad (1280×800).
 
 ## Features
 
