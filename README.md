@@ -28,11 +28,15 @@ Then open `http://localhost:3001`.
 
 Already hosted at: **https://cpavloske.github.io/neat-pad-clock/**
 
-Point the Neat Pad browser to that URL — no setup needed.
+No setup needed — use this URL when creating the custom web app in Neat Pulse.
 
 ### Self-hosting
 
-Host `index.html` on any static file server and point the Neat Pad browser to that URL.
+Host `index.html` on any static file server, then use that URL in Neat Pulse.
+
+### Adding to Neat Pulse
+
+In [Neat Pulse](https://pulse.neat.no), create a custom web app and point it to the hosted URL above. The app will then be deployable to your Neat Pad from Pulse.
 
 ## APIs Used
 
