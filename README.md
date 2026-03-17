@@ -24,7 +24,15 @@ Then open `http://localhost:3001`.
 
 ## Deployment
 
-Host `index.html` on any static file server or GitHub Pages. The Neat Pad browser points to the hosted URL.
+### GitHub Pages (quickest)
+
+Already hosted at: **https://cpavloske.github.io/neat-pad-clock/**
+
+Point the Neat Pad browser to that URL — no setup needed.
+
+### Self-hosting
+
+Host `index.html` on any static file server and point the Neat Pad browser to that URL.
 
 ## APIs Used
 
