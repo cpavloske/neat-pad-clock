@@ -894,21 +894,35 @@
 
   // Init — detect location via IP geolocation (works on any browser)
   async function initLocation() {
-    try {
-      const res = await fetch('https://ipapi.co/json/');
-      const data = await res.json();
-      if (data.latitude && data.longitude && data.city) {
-        const city = data.region_code
-          ? `${data.city}, ${data.region_code}`
-          : data.region
-            ? `${data.city}, ${data.region}`
-            : data.city;
-        detectedLocation = { city, lat: data.latitude, lon: data.longitude, tz: data.timezone || null };
-        updateDetectedBtn();
-        setLocation(city, data.latitude, data.longitude, data.timezone || null);
-        return;
+    const providers = [
+      async () => {
+        const d = await fetch('https://ipapi.co/json/').then(r => r.json());
+        if (!d.latitude || !d.city) throw new Error();
+        const region = d.region_code || d.region || '';
+        return { city: region ? `${d.city}, ${region}` : d.city, lat: d.latitude, lon: d.longitude, tz: d.timezone };
+      },
+      async () => {
+        const d = await fetch('https://ipwho.is/').then(r => r.json());
+        if (!d.latitude || !d.city) throw new Error();
+        const region = d.region_code || d.region || '';
+        return { city: region ? `${d.city}, ${region}` : d.city, lat: d.latitude, lon: d.longitude, tz: d.timezone };
+      },
+      async () => {
+        const d = await fetch('https://freeipapi.com/api/json').then(r => r.json());
+        if (!d.latitude || !d.cityName) throw new Error();
+        const region = d.regionCode || '';
+        return { city: region ? `${d.cityName}, ${region}` : d.cityName, lat: d.latitude, lon: d.longitude, tz: d.timeZone };
       }
-    } catch(e) { /* fall through to default */ }
+    ];
+    for (const provider of providers) {
+      try {
+        const loc = await provider();
+        detectedLocation = loc;
+        updateDetectedBtn();
+        setLocation(loc.city, loc.lat, loc.lon, loc.tz || null);
+        return;
+      } catch(e) { /* try next */ }
+    }
     fetchWeather(currentLat, currentLon, true);
     scheduleWeatherRefresh();
   }
