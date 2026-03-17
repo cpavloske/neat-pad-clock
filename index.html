@@ -580,6 +580,7 @@
   <div class="location-card">
     <h3>Choose location</h3>
     <div class="presets">
+      <button class="preset-btn" id="detected-btn" onclick="selectDetected()" style="display:none;grid-column:1/-1;border-color:var(--accent);color:var(--accent);">📍 My Location</button>
       <button class="preset-btn" onclick="selectPreset('Fort Worth, TX', 32.7555, -97.3308, 'America/Chicago')">Fort Worth, TX</button>
       <button class="preset-btn" onclick="selectPreset('New York, NY', 40.7128, -74.0060, 'America/New_York')">New York, NY</button>
       <button class="preset-btn" onclick="selectPreset('London, UK', 51.5074, -0.1278, 'Europe/London')">London, UK</button>
@@ -635,6 +636,7 @@
   let weatherRefreshTimer = null;
   let currentHourlyPrecip = null;
   let currentHourIndex = -1;
+  let detectedLocation = null;
 
   // Clock — uses currentTimezone to display the correct local time
   function updateClock() {
@@ -876,6 +878,20 @@
     }
   }
 
+  function updateDetectedBtn() {
+    const btn = document.getElementById('detected-btn');
+    if (detectedLocation) {
+      btn.textContent = `📍 ${detectedLocation.city}`;
+      btn.style.display = '';
+    }
+  }
+
+  function selectDetected() {
+    if (detectedLocation) {
+      setLocation(detectedLocation.city, detectedLocation.lat, detectedLocation.lon, detectedLocation.tz);
+    }
+  }
+
   // Init — detect location via IP geolocation (works on any browser)
   async function initLocation() {
     try {
@@ -887,6 +903,8 @@
           : data.region
             ? `${data.city}, ${data.region}`
             : data.city;
+        detectedLocation = { city, lat: data.latitude, lon: data.longitude, tz: data.timezone || null };
+        updateDetectedBtn();
         setLocation(city, data.latitude, data.longitude, data.timezone || null);
         return;
       }
