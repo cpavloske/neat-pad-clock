@@ -876,35 +876,23 @@
     }
   }
 
-  // Init — try user's location, fall back to default
-  function initLocation() {
-    if (!navigator.geolocation) {
-      fetchWeather(currentLat, currentLon, true);
-      scheduleWeatherRefresh();
-      return;
-    }
-    navigator.geolocation.getCurrentPosition(async (pos) => {
-      const lat = Math.round(pos.coords.latitude * 10000) / 10000;
-      const lon = Math.round(pos.coords.longitude * 10000) / 10000;
-      try {
-        const res = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json&zoom=10`);
-        const data = await res.json();
-        const a = data.address || {};
-        const name = a.city || a.town || a.village || a.county || 'My Location';
-        const iso = (a['ISO3166-2-lvl4'] || '').split('-').pop();
-        const region = iso || a.state || '';
-        const city = region ? `${name}, ${region}` : name;
-        setLocation(city, lat, lon, null);
-      } catch(e) {
-        currentLat = lat;
-        currentLon = lon;
-        fetchWeather(lat, lon, true);
-        scheduleWeatherRefresh();
+  // Init — detect location via IP geolocation (works on any browser)
+  async function initLocation() {
+    try {
+      const res = await fetch('https://ipapi.co/json/');
+      const data = await res.json();
+      if (data.latitude && data.longitude && data.city) {
+        const city = data.region_code
+          ? `${data.city}, ${data.region_code}`
+          : data.region
+            ? `${data.city}, ${data.region}`
+            : data.city;
+        setLocation(city, data.latitude, data.longitude, data.timezone || null);
+        return;
       }
-    }, () => {
-      fetchWeather(currentLat, currentLon, true);
-      scheduleWeatherRefresh();
-    }, { timeout: 5000 });
+    } catch(e) { /* fall through to default */ }
+    fetchWeather(currentLat, currentLon, true);
+    scheduleWeatherRefresh();
   }
   initLocation();
 </script>
